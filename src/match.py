@@ -1,4 +1,5 @@
 import inning as inn
+import time
 
 def print_inning_details(current_inning):
 	print(current_inning.runs_so_far)
@@ -25,24 +26,33 @@ def get_batsman_list():
 
 	return team_a, team_b
 
-for _ in range(1):
-	team_a, team_b = get_batsman_list()
-	first_inn = inn.Inning(team_a)
-	first_inn.start()
+first_inn, second_inn = None, None
+time_span = 0
 
-	second_inn = inn.Inning(team_b, first_inn.runs_so_far+1)
-	second_inn.start()
-	
+team_a, team_b = get_batsman_list()
+first_inn = inn.Inning(team_a)
+first_inn.start()
+
+while time_span <= 30:
 	print_inning_details(first_inn)
+	time_span += 30
+	time.sleep(2)
+
+second_inn = inn.Inning(team_b, first_inn.runs_so_far+1)
+second_inn.start()
+	
+while time_span <= 60:
 	print_inning_details(second_inn)
+	time_span += 30
+	time.sleep(2)
 
-	print("Result")
+print("Result")
 
-	if second_inn.runs_so_far > first_inn.runs_so_far:
-		print("Team B win by "+ str(10-second_inn.wkts_so_far) + " wickets")
-	elif second_inn.runs_so_far == first_inn.runs_so_far:
-		print("Match tied.")
-	else:
-		print("Team A win by " + str(first_inn.runs_so_far - second_inn.runs_so_far) + " runs")
+if second_inn.runs_so_far > first_inn.runs_so_far:
+	print("Team B win by "+ str(10-second_inn.wkts_so_far) + " wickets")
+elif second_inn.runs_so_far == first_inn.runs_so_far:
+	print("Match tied.")
+else:
+	print("Team A win by " + str(first_inn.runs_so_far - second_inn.runs_so_far) + " runs")
 
 	

@@ -1,6 +1,7 @@
 import random
 import utilities as utils
 import collections
+import time
 
 class Inning:
 	def __init__(self, batsman_list, target= float("inf")):
@@ -56,6 +57,8 @@ class Inning:
 				self.batsman_scores[self.striker].append(ball_event)
 			else:
 				self.batsman_scores[self.striker].append(0)
+
+			time.sleep(0)
 
 
 
