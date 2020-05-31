@@ -16,11 +16,15 @@ class Inning:
 
 			if ball_event == -1:
 				self.wkts_so_far += 1
-				self.fow.append((self.runs_so_far, self.wkts_so_far))
 			else:
 				self.runs_so_far += ball_event
 
-			self.event_list.append(ball_event)
+			overs = str(self.balls_so_far // 6) + '.' + str(self.balls_so_far % 6)
+
+			if ball_event == -1:
+				self.fow.append((overs, self.runs_so_far, self.wkts_so_far))
+
+			self.event_list.append((overs, self.runs_so_far, self.wkts_so_far))
 
 
 

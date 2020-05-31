@@ -10,7 +10,7 @@ def ball_event(batsman_id = None, bowler_id = None):
 
 	Assumption : Singles and dots will occur more often than boundaries and outs. 
 	"""
-	scores = [-1, 0, 1, 2, 3, 4, 6, 1, 0]
+	scores = [-1, 0, 1, 2, 3, 4, 6, 1, 0, 0, 1, 2]
 	index = random.randint(0, len(scores)-1)
 
 	return scores[index]
