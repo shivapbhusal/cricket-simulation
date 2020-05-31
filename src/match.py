@@ -6,27 +6,35 @@ def print_inning_details(current_inning):
 	print(current_inning.overs)
 
 	for batsman in current_inning.batsman_list:
-		print(batsman + ':' + str(sum(current_inning.batsman_scores[batsman])))
+		print(batsman + ':' + str(sum(current_inning.batsman_scores[batsman])) + ':'+str(len(current_inning.batsman_scores[batsman])))
 
 
 def get_batsman_list():
-	batsman_list = []
+	team_a, team_b = [], []
+	f = open("src/players.txt", "r")
 
-	for i in range(1, 12):
-		batsman_list.append('No-'+str(i))
+	for i in range(22):
+		line = f.readline()
+		line = line.split(",")
+		player_id, name = line[0].strip(), line[1].strip()
 
-	return batsman_list
+		if i < 11:
+			team_a.append(name)
+		else:
+			team_b.append(name)
 
-for _ in range(100):
-	batsmen_list = get_batsman_list()
-	first_inn = inn.Inning(batsmen_list)
+	return team_a, team_b
+
+for _ in range(1):
+	team_a, team_b = get_batsman_list()
+	first_inn = inn.Inning(team_a)
 	first_inn.start()
 
-	second_inn = inn.Inning(batsmen_list, first_inn.runs_so_far+1)
+	second_inn = inn.Inning(team_b, first_inn.runs_so_far+1)
 	second_inn.start()
 	
-	#print_inning_details(first_inn)
-	#print_inning_details(second_inn)
+	print_inning_details(first_inn)
+	print_inning_details(second_inn)
 
 	print("Result")
 

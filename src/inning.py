@@ -54,6 +54,8 @@ class Inning:
 			
 			if ball_event > -1:
 				self.batsman_scores[self.striker].append(ball_event)
+			else:
+				self.batsman_scores[self.striker].append(0)
 
 
 

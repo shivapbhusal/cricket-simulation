@@ -1,6 +1,9 @@
 from espncricinfo.player import Player
 
-p = Player('51880')
+f = open("src/players.txt", "r")
 
-print(p.json)
-print(p.parsed_html)
+for _ in range(11):
+	line = f.readline()
+	print(line)
+	#p = Player(player_id)
+	#print(p.batting_fielding_averages)
