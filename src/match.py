@@ -1,5 +1,6 @@
 import inning as inn
 import time
+import asyncio
 
 def print_inning_details(current_inning):
 	print(current_inning.runs_so_far)
@@ -31,7 +32,7 @@ time_span = 0
 
 team_a, team_b = get_batsman_list()
 first_inn = inn.Inning(team_a)
-first_inn.start()
+asyncio.run(first_inn.start())
 
 while time_span <= 30:
 	print_inning_details(first_inn)
@@ -39,7 +40,9 @@ while time_span <= 30:
 	time.sleep(2)
 
 second_inn = inn.Inning(team_b, first_inn.runs_so_far+1)
-second_inn.start()
+asyncio.run(second_inn.start())
+
+print("test")
 	
 while time_span <= 60:
 	print_inning_details(second_inn)

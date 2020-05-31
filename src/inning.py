@@ -2,6 +2,7 @@ import random
 import utilities as utils
 import collections
 import time
+import asyncio
 
 class Inning:
 	def __init__(self, batsman_list, target= float("inf")):
@@ -32,7 +33,7 @@ class Inning:
 		if self.balls_so_far % 6 == 0:
 			self.striker, self.non_striker = self.non_striker, self.striker
 
-	def start(self):
+	async def start(self):
 		while self.runs_so_far < self.target and self.wkts_so_far < 10 and self.balls_so_far < 120:
 			ball_event = utils.ball_event()
 			self.balls_so_far += 1
@@ -58,7 +59,7 @@ class Inning:
 			else:
 				self.batsman_scores[self.striker].append(0)
 
-			time.sleep(0)
+			await asyncio.sleep(2)
 
 
 
