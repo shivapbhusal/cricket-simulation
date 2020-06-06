@@ -1,15 +1,14 @@
 import inning as inn
 import time
-import asyncio
+import threading
 
 def print_inning_details(current_inning):
-	print(current_inning.runs_so_far)
-	print(current_inning.fow)
-	print(current_inning.overs)
-
-	for batsman in current_inning.batsman_list:
-		print(batsman + ':' + str(sum(current_inning.batsman_scores[batsman])) + ':'+str(len(current_inning.batsman_scores[batsman])))
-
+	print("Score: "+str(current_inning.runs_so_far))
+	print("Wickets:"+str(current_inning.wkts_so_far))
+	print("Overs:"+str(current_inning.overs))
+	print("On strike:")
+	print(current_inning.striker +":"+str(current_inning.batsman_scores[current_inning.striker]))
+	print(current_inning.non_striker +":"+str(current_inning.batsman_scores[current_inning.non_striker]))
 
 def get_batsman_list():
 	team_a, team_b = [], []
@@ -32,22 +31,31 @@ time_span = 0
 
 team_a, team_b = get_batsman_list()
 first_inn = inn.Inning(team_a)
-asyncio.run(first_inn.start())
 
-while time_span <= 30:
+th = threading.Thread(target = first_inn.start)
+th.start()
+print('match started.')
+
+while time_span <= 120:
 	print_inning_details(first_inn)
-	time_span += 30
-	time.sleep(2)
+	time_span += 2
+	time.sleep(1)
+
+th.join()
 
 second_inn = inn.Inning(team_b, first_inn.runs_so_far+1)
-asyncio.run(second_inn.start())
+th = threading.Thread(target = second_inn.start)
+th.start()
 
-print("test")
+print("Second inning started")
 	
-while time_span <= 60:
+while time_span <= 240:
+	print('Target: '+str(second_inn.target))
 	print_inning_details(second_inn)
-	time_span += 30
-	time.sleep(2)
+	time_span += 2
+	time.sleep(1)
+
+th.join()
 
 print("Result")
 
