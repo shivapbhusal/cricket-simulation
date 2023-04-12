@@ -1,14 +1,24 @@
 import inning as inn
 import time
 import threading
+import json
 
 def print_inning_details(current_inning):
-	print("Score: "+str(current_inning.runs_so_far))
-	print("Wickets:"+str(current_inning.wkts_so_far))
-	print("Overs:"+str(current_inning.overs))
-	print("On strike:")
-	print(current_inning.striker +":"+str(current_inning.batsman_scores[current_inning.striker]))
-	print(current_inning.non_striker +":"+str(current_inning.batsman_scores[current_inning.non_striker]))
+	inning_details = dict()
+	inning_details["score"] = str(current_inning.runs_so_far)
+	inning_details["wickets"] = str(current_inning.wkts_so_far)
+	inning_details["overs"] = str(current_inning.overs)
+	
+	inning_details["striker"] = current_inning.striker +":" + \
+								str(current_inning.batsman_scores[current_inning.striker])
+	
+	inning_details["nonstriker"] = current_inning.non_striker +":" + \
+								   str(current_inning.batsman_scores[current_inning.non_striker])
+	
+	inning_details["allscores"] = str(current_inning.batsman_scores)
+	
+	json_object = json.dumps(inning_details, indent = 4)
+	print(json_object)
 
 def get_batsman_list():
 	team_a, team_b = [], []
