@@ -14,7 +14,7 @@ class Inning:
 		self.event_list = []
 		self.fow = []
 		self.batsman_list = batsman_list
-		self.batsman_scores = collections.defaultdict(list)
+		self.batsman_scores = collections.defaultdict(int)
 		self.striker = batsman_list[0]
 		self.non_striker = batsman_list[1]
 
@@ -55,9 +55,7 @@ class Inning:
 				self.change_strike(ball_event)
 			
 			if ball_event > -1:
-				self.batsman_scores[self.striker].append(ball_event)
-			else:
-				self.batsman_scores[self.striker].append(0)
+				self.batsman_scores[self.striker] += ball_event
 
 			time.sleep(0.5)
 
