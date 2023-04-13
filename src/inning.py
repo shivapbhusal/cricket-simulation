@@ -4,6 +4,34 @@ import collections
 import time
 import threading
 
+"""
+Class to represent attributes of a player
+based on their batting order.
+Player Status : 0 - not at the crease yet
+1 - on strike
+2 - non -strker
+3 - out
+"""
+class Player:
+	def __init__(self, batting_order, name, balls = 0, runs = 0, status = 0):
+		self.batting_order = batting_order
+		self.name = name
+		self.balls = balls
+		self.runs = runs
+		self.status = status
+	
+	def score_runs(self, runs):
+		self.runs += runs
+	
+	def face_ball(self):
+		self.balls +=  1
+	
+	def strike_rotate(self):
+		if self.status == 1:
+			self.status = 2
+		else:
+			self.status = 1
+
 class Inning:
 	def __init__(self, batsman_list, target= float("inf")):
 		self.target = target
@@ -28,12 +56,14 @@ class Inning:
 			self.striker, self.non_striker = self.non_striker, self.striker
 
 		if ball_event == -1:
+			self.striker.face_ball()
 			self.striker = self.batsman_list[self.wkts_so_far+1]
 
 		if self.balls_so_far % 6 == 0:
 			self.striker, self.non_striker = self.non_striker, self.striker
 
 	def start(self):
+		# Needs Modification based on player.
 		while self.runs_so_far < self.target and self.wkts_so_far < 10 and self.balls_so_far < 120:
 			ball_event = utils.ball_event()
 			self.balls_so_far += 1
@@ -55,7 +85,9 @@ class Inning:
 				self.change_strike(ball_event)
 			
 			if ball_event > -1:
-				self.batsman_scores[self.striker] += ball_event
+				# Here, ball_event can be considered run.
+				self.striker.score_runs(ball_event)
+				self.striker.face_ball()
 
 			time.sleep(0.5)
 

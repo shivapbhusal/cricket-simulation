@@ -3,22 +3,30 @@ import time
 import threading
 import json
 
+def get_dictionary_list_from_batter_list(batter_list):
+	all_batters = []
+	for player in batter_list:
+		all_batters.append({
+			"name" : player.name,
+			"batting_order" : player.batting_order,
+			"runs" : player.runs,
+			"balls" : player.balls,
+			"status" : player.status
+		})
+	
+	return all_batters
+
+
 def print_inning_details(current_inning):
 	inning_details = dict()
 	inning_details["score"] = str(current_inning.runs_so_far)
 	inning_details["wickets"] = str(current_inning.wkts_so_far)
 	inning_details["overs"] = str(current_inning.overs)
+
+	inning_details["allbatters"] = \
+		get_dictionary_list_from_batter_list(current_inning.batsman_list)
 	
-	inning_details["striker"] = current_inning.striker +":" + \
-								str(current_inning.batsman_scores[current_inning.striker])
-	
-	inning_details["nonstriker"] = current_inning.non_striker +":" + \
-								   str(current_inning.batsman_scores[current_inning.non_striker])
-	
-	inning_details["allscores"] = str(current_inning.batsman_scores)
-	
-	json_object = json.dumps(inning_details, indent = 4)
-	print(json_object)
+	print(json.dumps(inning_details, indent = 4))
 
 def get_batsman_list():
 	team_a, team_b = [], []
@@ -28,11 +36,19 @@ def get_batsman_list():
 		line = f.readline()
 		line = line.split(",")
 		player_id, name = line[0].strip(), line[1].strip()
-
+		# Check for this line if it causes any issues
+		# If 0 - should be 0. If 11 should be 11, if 21 should be 10.
+		batting_order = i % 11
+		player = inn.Player(batting_order, name)
+		
+		"""
+		First 11 players in team A.
+		Next 11 players in team B.
+		"""
 		if i < 11:
-			team_a.append(name)
+			team_a.append(player)
 		else:
-			team_b.append(name)
+			team_b.append(player)
 
 	return team_a, team_b
 
@@ -48,7 +64,8 @@ print('match started.')
 
 while time_span <= 120:
 	print_inning_details(first_inn)
-	time_span += 2
+	time_span += 1
+	# Time sleep per ball
 	time.sleep(1)
 
 th.join()
