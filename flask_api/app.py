@@ -3,59 +3,36 @@ import inning as inn
 import time
 import threading
 import json
+from multiprocessing import Process
 
 app = Flask(__name__)
 
-"""
-From Server Perspective: 
-# POST - Used to receive data
-# GET - Used to send data back only
-"""
+# Global variables to keep inning info
+first_inning = None
+second_inning = None
 
-# Decorator, tell what the request does
-# TO-Do : Learn Decorator
+def prestart_inning():
+	global first_inning
+	global second_inning
 
-# By default app.route is get request
+	team_a, team_b = get_batsman_list()
+	first_inning = inn.Inning(team_a)
+
+	first_inning.start()
+	time.sleep(30)
+
+	second_inning = inn.Inning(team_b, first_inning.runs_so_far + 1)
+	second_inning.start()
+
 
 @app.route('/')
 def home():
 	return render_template('index.html')
 
-def start_match(first_inn, second_inn):
-	time_span = 0
-
-	th = threading.Thread(target = first_inn.start)
-	th.start()
-
-	while time_span <= 120:
-		# Second Inning is currently empty
-		time_span += 1
-		# Time sleep per ball
-		time.sleep(1)
-
-	th.join()
-
-	second_inn = inn.Inning(team_b, first_inn.runs_so_far+1)
-	th = threading.Thread(target = second_inn.start)
-	th.start()
-	
-	while time_span <= 240:
-		print('Target: '+str(second_inn.target))
-		# Second inning details can go next
-		time_span += 2
-		time.sleep(1)
-
-	th.join()
-
 @app.route('/match')
 def get_match_details():
-	team_a, team_b = get_batsman_list()
-	first_inning = inn.Inning(team_a)
-	second_inning = inn.Inning(team_a)
-
-	th = threading.Thread(target = first_inning.start)
-	th.start()
-
+	global first_inning
+	global second_inning
 	match_details = {0: get_inning_info(first_inning),
 		  1: get_inning_info(second_inning)}
 	
@@ -115,4 +92,9 @@ def get_batsman_list():
 
 #Tell the app to run
 #First argument will be a port
-app.run(port=4000)
+if __name__ == "__main__":
+	#Create and start a process for init()
+	t = threading.Thread(target=prestart_inning)
+	t.daemon = True
+	t.start()
+	app.run(port = 4000)

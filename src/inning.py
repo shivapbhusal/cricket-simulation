@@ -102,7 +102,7 @@ class Inning:
 				self.striker.score_runs(ball_event)
 				self.striker.face_ball()
 
-			time.sleep(0.5)
+			time.sleep(1)
 
 
 
