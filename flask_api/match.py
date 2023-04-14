@@ -1,65 +1,7 @@
-from flask import Flask, jsonify, request, render_template
 import inning as inn
 import time
 import threading
 import json
-
-app = Flask(__name__)
-
-"""
-From Server Perspective: 
-# POST - Used to receive data
-# GET - Used to send data back only
-"""
-
-# Decorator, tell what the request does
-# TO-Do : Learn Decorator
-
-# By default app.route is get request
-
-@app.route('/')
-def home():
-	return render_template('index.html')
-
-def start_match(first_inn, second_inn):
-	time_span = 0
-
-	th = threading.Thread(target = first_inn.start)
-	th.start()
-
-	while time_span <= 120:
-		# Second Inning is currently empty
-		time_span += 1
-		# Time sleep per ball
-		time.sleep(1)
-
-	th.join()
-
-	second_inn = inn.Inning(team_b, first_inn.runs_so_far+1)
-	th = threading.Thread(target = second_inn.start)
-	th.start()
-	
-	while time_span <= 240:
-		print('Target: '+str(second_inn.target))
-		# Second inning details can go next
-		time_span += 2
-		time.sleep(1)
-
-	th.join()
-
-@app.route('/match')
-def get_match_details():
-	team_a, team_b = get_batsman_list()
-	first_inning = inn.Inning(team_a)
-	second_inning = inn.Inning(team_a)
-
-	th = threading.Thread(target = first_inning.start)
-	th.start()
-
-	match_details = {0: get_inning_info(first_inning),
-		  1: get_inning_info(second_inning)}
-	
-	return jsonify(match_details)
 
 def get_dictionary_list_from_batter_list(batter_list):
 	all_batters = []
@@ -89,6 +31,12 @@ def get_inning_info(current_inning):
 
 	return inning_details
 
+def print_inning_details(first_inning, second_inning):
+	match_details = {0: get_inning_info(first_inning),
+		  1: get_inning_info(second_inning)}
+	
+	print(json.dumps(match_details, indent = 4))
+
 def get_batsman_list():
 	team_a, team_b = [], []
 	f = open("src/players.txt", "r")
@@ -113,6 +61,48 @@ def get_batsman_list():
 
 	return team_a, team_b
 
-#Tell the app to run
-#First argument will be a port
-app.run(port=4000)
+first_inn, second_inn = None, None
+time_span = 0
+
+team_a, team_b = get_batsman_list()
+first_inn = inn.Inning(team_a)
+second_inn = inn.Inning(team_a)
+
+th = threading.Thread(target = first_inn.start)
+th.start()
+print('match started.')
+
+while time_span <= 120:
+	# Second Inning is currently empty
+	print_inning_details(first_inn, None)
+	time_span += 1
+	# Time sleep per ball
+	time.sleep(1)
+
+th.join()
+
+second_inn = inn.Inning(team_b, first_inn.runs_so_far+1)
+th = threading.Thread(target = second_inn.start)
+th.start()
+
+print("Second inning started")
+	
+while time_span <= 240:
+	print('Target: '+str(second_inn.target))
+	# Second inning details can go next
+	print_inning_details(first_inn, second_inn)
+	time_span += 2
+	time.sleep(1)
+
+th.join()
+
+print("Result")
+
+if second_inn.runs_so_far > first_inn.runs_so_far:
+	print("Team B win by "+ str(10-second_inn.wkts_so_far) + " wickets")
+elif second_inn.runs_so_far == first_inn.runs_so_far:
+	print("Match tied.")
+else:
+	print("Team A win by " + str(first_inn.runs_so_far - second_inn.runs_so_far) + " runs")
+
+	
