@@ -16,8 +16,10 @@ def get_dictionary_list_from_batter_list(batter_list):
 	
 	return all_batters
 
-
-def print_inning_details(current_inning):
+def get_inning_info(current_inning):
+	if current_inning == None:
+		return {}
+	
 	inning_details = dict()
 	inning_details["target"] = current_inning.target
 	inning_details["score"] = str(current_inning.runs_so_far)
@@ -26,8 +28,14 @@ def print_inning_details(current_inning):
 
 	inning_details["allbatters"] = \
 		get_dictionary_list_from_batter_list(current_inning.batsman_list)
+
+	return inning_details
+
+def print_inning_details(first_inning, second_inning):
+	match_details = {0: get_inning_info(first_inning),
+		  1: get_inning_info(second_inning)}
 	
-	print(json.dumps(inning_details, indent = 4))
+	print(json.dumps(match_details, indent = 4))
 
 def get_batsman_list():
 	team_a, team_b = [], []
@@ -58,13 +66,15 @@ time_span = 0
 
 team_a, team_b = get_batsman_list()
 first_inn = inn.Inning(team_a)
+second_inn = inn.Inning(team_a)
 
 th = threading.Thread(target = first_inn.start)
 th.start()
 print('match started.')
 
 while time_span <= 120:
-	print_inning_details(first_inn)
+	# Second Inning is currently empty
+	print_inning_details(first_inn, None)
 	time_span += 1
 	# Time sleep per ball
 	time.sleep(1)
@@ -79,7 +89,8 @@ print("Second inning started")
 	
 while time_span <= 240:
 	print('Target: '+str(second_inn.target))
-	print_inning_details(second_inn)
+	# Second inning details can go next
+	print_inning_details(first_inn, second_inn)
 	time_span += 2
 	time.sleep(1)
 
