@@ -11,6 +11,28 @@ class Status(Enum):
 	NON_STRIKER = 2,
 	OUT = 3
 
+class BowlerStatus(Enum):
+	INACTIVE = 0,
+	ACTIVE = 1
+
+# Status : 0 inactive, 1 currently bowling.
+class Bowler:
+	def __init__(self, bowling_order, name, balls = 0, runs = 0, status = BowlerStatus.INACTIVE):
+		self.bowling_order = bowling_order
+		self.name = name
+		self.balls = 0
+		self.runs = runs
+		self.status = status
+	
+	def concede_runs(self, runs):
+		self.runs += runs
+	
+	def start_bowling(self):
+		self.status = 1
+	
+	def complete_over(self):
+		self.status = 0
+
 """
 Class to represent attributes of a player
 based on their batting order.
@@ -43,7 +65,7 @@ class Player:
 		self.status = new_status
 
 class Inning:
-	def __init__(self, batsman_list, target= float('inf')):
+	def __init__(self, batsman_list, bowler_list, target= float('inf')):
 		self.target = target
 		self.runs_so_far = 0
 		self.wkts_so_far = 0
@@ -52,6 +74,7 @@ class Inning:
 		self.event_list = []
 		self.fow = []
 		self.batsman_list = batsman_list
+		self.bowler_list = bowler_list
 		self.batsman_scores = collections.defaultdict(int)
 		self.striker = batsman_list[0]
 		self.non_striker = batsman_list[1]

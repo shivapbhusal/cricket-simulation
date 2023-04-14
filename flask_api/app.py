@@ -15,13 +15,13 @@ def prestart_inning():
 	global first_inning
 	global second_inning
 
-	team_a, team_b = get_batsman_list()
-	first_inning = inn.Inning(team_a)
+	team_a, team_b, bowlers_for_a, bowlers_for_b = get_player_list()
+	first_inning = inn.Inning(team_a, bowlers_for_a)
 
 	first_inning.start()
 	time.sleep(30)
 
-	second_inning = inn.Inning(team_b, first_inning.runs_so_far + 1)
+	second_inning = inn.Inning(team_b, bowlers_for_b, first_inning.runs_so_far + 1)
 	second_inning.start()
 
 
@@ -37,6 +37,20 @@ def get_match_details():
 		  1: get_inning_info(second_inning)}
 	
 	return jsonify(match_details)
+
+def get_dictionary_list_from_bowler_list(bowler_list):
+	all_bowlers = []
+	for player in bowler_list:
+		all_bowlers.append({
+			"name" : player.name,
+			"bowling_order" : player.bowling_order,
+			"runs" : player.runs,
+			"balls" : player.balls,
+			"status" : player.status.name
+		})
+	
+	return all_bowlers
+
 
 def get_dictionary_list_from_batter_list(batter_list):
 	all_batters = []
@@ -63,12 +77,15 @@ def get_inning_info(current_inning):
 
 	inning_details["allbatters"] = \
 		get_dictionary_list_from_batter_list(current_inning.batsman_list)
+	
+	inning_details["allbowlers"] = \
+		get_dictionary_list_from_bowler_list(current_inning.bowler_list)
 
 	return inning_details
 
-def get_batsman_list():
-	team_a, team_b = [], []
-	f = open("src/players.txt", "r")
+def get_player_list():
+	team_a, team_b, bowlers_for_a, bowlers_for_b = [], [], [], []
+	f = open("flask_api/players.txt", "r")
 
 	for i in range(22):
 		line = f.readline()
@@ -88,7 +105,15 @@ def get_batsman_list():
 		else:
 			team_b.append(player)
 
-	return team_a, team_b
+	# Populate bowlers for team A
+	for bowling_order, player in enumerate(team_b[6:]):
+		bowlers_for_a.append(inn.Bowler(bowling_order, player.name))
+
+	# Populate bowlers for team B 
+	for bowling_order, player in enumerate(team_a[6:]):
+		bowlers_for_b.append(inn.Bowler(bowling_order, player.name))
+
+	return team_a, team_b, bowlers_for_a, bowlers_for_b
 
 #Tell the app to run
 #First argument will be a port
