@@ -11,7 +11,7 @@ def get_dictionary_list_from_batter_list(batter_list):
 			"batting_order" : player.batting_order,
 			"runs" : player.runs,
 			"balls" : player.balls,
-			"status" : player.status
+			"status" : player.status.name
 		})
 	
 	return all_batters
@@ -19,6 +19,7 @@ def get_dictionary_list_from_batter_list(batter_list):
 
 def print_inning_details(current_inning):
 	inning_details = dict()
+	inning_details["target"] = current_inning.target
 	inning_details["score"] = str(current_inning.runs_so_far)
 	inning_details["wickets"] = str(current_inning.wkts_so_far)
 	inning_details["overs"] = str(current_inning.overs)

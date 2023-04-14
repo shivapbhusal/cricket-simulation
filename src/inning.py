@@ -3,6 +3,13 @@ import utilities as utils
 import collections
 import time
 import threading
+from enum import Enum
+
+class Status(Enum):
+	NOT_YET_ON_CREASE = 0,
+	ON_STRIKE = 1,
+	NON_STRIKER = 2,
+	OUT = 3
 
 """
 Class to represent attributes of a player
@@ -13,7 +20,7 @@ Player Status : 0 - not at the crease yet
 3 - out
 """
 class Player:
-	def __init__(self, batting_order, name, balls = 0, runs = 0, status = 0):
+	def __init__(self, batting_order, name, balls = 0, runs = 0, status = Status.NOT_YET_ON_CREASE):
 		self.batting_order = batting_order
 		self.name = name
 		self.balls = balls
@@ -31,9 +38,12 @@ class Player:
 			self.status = 2
 		else:
 			self.status = 1
+	
+	def change_status(self, new_status):
+		self.status = new_status
 
 class Inning:
-	def __init__(self, batsman_list, target= float("inf")):
+	def __init__(self, batsman_list, target= float('inf')):
 		self.target = target
 		self.runs_so_far = 0
 		self.wkts_so_far = 0
@@ -54,9 +64,12 @@ class Inning:
 		"""
 		if ball_event == 1 or ball_event == 3:
 			self.striker, self.non_striker = self.non_striker, self.striker
+			self.striker.status = Status.ON_STRIKE
+			self.non_striker.status = Status.NON_STRIKER
 
 		if ball_event == -1:
 			self.striker.face_ball()
+			self.striker.status = Status.OUT
 			self.striker = self.batsman_list[self.wkts_so_far+1]
 
 		if self.balls_so_far % 6 == 0:
