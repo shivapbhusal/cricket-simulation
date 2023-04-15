@@ -80,6 +80,7 @@ class Inning:
 		self.striker = batsman_list[0]
 		self.non_striker = batsman_list[1]
 		self.current_bowler = bowler_list[0]
+		self.current_bowler.status = BowlerStatus.ACTIVE
 
 	def change_strike(self, ball_event):
 		"""
@@ -97,18 +98,19 @@ class Inning:
 			self.striker.face_ball()
 			self.striker.status = Status.OUT
 			self.striker = self.batsman_list[self.wkts_so_far+1]
-			self.current_bowler.wickets += 1
-			self.current_bowler.balls += 1
 
 		if self.balls_so_far % 6 == 0:
 			self.striker, self.non_striker = self.non_striker, self.striker
+			self.current_bowler.status = BowlerStatus.INACTIVE
 			self.current_bowler = utils.get_next_bowler(self.bowler_list, self.current_bowler)
+			self.current_bowler.status = BowlerStatus.ACTIVE
 
 	def start(self):
 		# Needs Modification based on player.
 		while self.runs_so_far < self.target and self.wkts_so_far < 10 and self.balls_so_far < 120:
 			ball_event = utils.ball_event()
 			self.balls_so_far += 1
+			self.current_bowler.balls += 1
 
 			if ball_event == -1:
 				self.wkts_so_far += 1
@@ -131,7 +133,6 @@ class Inning:
 				self.striker.score_runs(ball_event)
 				self.striker.face_ball()
 				self.current_bowler.runs += ball_event
-				self.current_bowler.balls += 1
 
 			time.sleep(0.5)
 
