@@ -43,12 +43,13 @@ Player Status : 0 - not at the crease yet
 3 - out
 """
 class Player:
-	def __init__(self, batting_order, name, balls = 0, runs = 0, status = Status.NOT_YET_ON_CREASE):
+	def __init__(self, batting_order, name, batter_id, balls = 0, runs = 0, status = Status.NOT_YET_ON_CREASE):
 		self.batting_order = batting_order
 		self.name = name
 		self.balls = balls
 		self.runs = runs
 		self.status = status
+		self.batter_id = batter_id
 	
 	def score_runs(self, runs):
 		self.runs += runs
@@ -108,7 +109,7 @@ class Inning:
 	def start(self):
 		# Needs Modification based on player.
 		while self.runs_so_far < self.target and self.wkts_so_far < 10 and self.balls_so_far < 120:
-			ball_event = utils.ball_event()
+			ball_event = utils.ball_event(self.striker.batter_id)
 			self.balls_so_far += 1
 			self.current_bowler.balls += 1
 

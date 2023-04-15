@@ -94,7 +94,7 @@ def get_player_list():
 		# Check for this line if it causes any issues
 		# If 0 - should be 0. If 11 should be 11, if 21 should be 10.
 		batting_order = i % 11
-		player = inn.Player(batting_order, name)
+		player = inn.Player(batting_order, name, player_id)
 		
 		"""
 		First 11 players in team A.
