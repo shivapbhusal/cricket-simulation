@@ -70,7 +70,7 @@ def get_inning_info(current_inning):
 		return {}
 	
 	inning_details = dict()
-	inning_details["target"] = current_inning.target
+	inning_details["target"] = -1 if current_inning.target == float('inf') else current_inning.target
 	inning_details["score"] = str(current_inning.runs_so_far)
 	inning_details["wickets"] = str(current_inning.wkts_so_far)
 	inning_details["overs"] = str(current_inning.overs)

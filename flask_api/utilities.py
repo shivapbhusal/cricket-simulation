@@ -16,7 +16,7 @@ def get_event_when_batter_stat_available(t20_stat):
 	fours_percentage = fours * 100 / balls_faced
 	sixes_percentage = sixes * 100 / balls_faced
 	score_distribution = []
-	for i in range(outs_percentage):
+	for i in range(outs_percentage - 1):
 		score_distribution.append(-1)
 	
 	for i in range(fours_percentage):
