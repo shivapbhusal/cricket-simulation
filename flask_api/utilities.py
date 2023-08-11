@@ -34,7 +34,7 @@ def get_event_when_batter_stat_available(t20_stat):
 	
 
 def get_event_if_batter_stat_not_available():
-	scores = [-1, 0, 1, 2, 3, 4, 6, 1, 0, 0, 1, 2, 0, 1]
+	scores = [1, 1, 0, 1, -1, 0, 1, 2, 3, 4, 6, 1, 0, 0, 1, 2, 0, 1, 0, 0, 0, 1]
 	index = random.randint(0, len(scores)-1)
 
 	return scores[index]
@@ -51,8 +51,9 @@ def ball_event(batter_id = None):
 	"""
 	try:
 		player_data = json.loads(get_career_statistics(batter_id))
-		t20_stat = player_data[3]
-		return get_event_when_batter_stat_available(t20_stat)
+		odi_stat = player_data[2]
+		#print(odi_stat)
+		return get_event_when_batter_stat_available(odi_stat)
 	except:
 		return get_event_if_batter_stat_not_available()
 	
@@ -84,8 +85,8 @@ def get_career_statistics(player_id):
 	return json_data
 
 
-# for i in range(100):
-# print(ball_event("34102"))
+#for i in range(100):
+#print(ball_event("34102"))
 
 
 

@@ -108,7 +108,7 @@ class Inning:
 
 	def start(self):
 		# Needs Modification based on player.
-		while self.runs_so_far < self.target and self.wkts_so_far < 10 and self.balls_so_far < 120:
+		while self.runs_so_far < self.target and self.wkts_so_far < 10 and self.balls_so_far < 300:
 			ball_event = utils.ball_event(self.striker.batter_id)
 			self.balls_so_far += 1
 			self.current_bowler.balls += 1
@@ -126,7 +126,7 @@ class Inning:
 
 			self.event_list.append((overs, self.runs_so_far, self.wkts_so_far))
 
-			if self.wkts_so_far < 10 and self.balls_so_far < 120:
+			if self.wkts_so_far < 10 and self.balls_so_far < 300:
 				self.change_strike(ball_event)
 			
 			if ball_event > -1:

@@ -39,7 +39,7 @@ def print_inning_details(first_inning, second_inning):
 
 def get_batsman_list():
 	team_a, team_b = [], []
-	f = open("src/players.txt", "r")
+	f = open("players.txt", "r")
 
 	for i in range(22):
 		line = f.readline()
@@ -72,7 +72,7 @@ th = threading.Thread(target = first_inn.start)
 th.start()
 print('match started.')
 
-while time_span <= 120:
+while time_span <= 300:
 	# Second Inning is currently empty
 	print_inning_details(first_inn, None)
 	time_span += 1
@@ -87,11 +87,11 @@ th.start()
 
 print("Second inning started")
 	
-while time_span <= 240:
+while time_span <= 600:
 	print('Target: '+str(second_inn.target))
 	# Second inning details can go next
 	print_inning_details(first_inn, second_inn)
-	time_span += 2
+	time_span += 1
 	time.sleep(1)
 
 th.join()
