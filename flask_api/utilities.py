@@ -6,13 +6,13 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-def get_event_when_batter_stat_available(t20_stat):
-	balls_faced = t20_stat[7]
-	innnings = t20_stat[2]
-	not_outs = t20_stat[3]
-	fours = t20_stat[11]
-	sixes = t20_stat[12]
-	outs_percentage = (innnings - not_outs) * 100 / balls_faced
+def get_event_when_batter_stat_available(odi_stat):
+	balls_faced = odi_stat[7]
+	innnings = odi_stat[2]
+	not_outs = odi_stat[3]
+	fours = odi_stat[11]
+	sixes = odi_stat[12]
+	outs_percentage = (innnings - not_outs - 5) * 100 / balls_faced
 	fours_percentage = fours * 100 / balls_faced
 	sixes_percentage = sixes * 100 / balls_faced
 	score_distribution = []
@@ -26,7 +26,7 @@ def get_event_when_batter_stat_available(t20_stat):
 		score_distribution.append(6)
 	
 	for i in range(len(score_distribution), 100):
-		rest_of_scores = [1, 0, 2, 3, 1, 0]
+		rest_of_scores = [1, 0, 2, 3, 1, 0, 0]
 		index = random.randint(0, len(rest_of_scores)-1)
 		score_distribution.append(rest_of_scores[index])
 	
@@ -34,7 +34,7 @@ def get_event_when_batter_stat_available(t20_stat):
 	
 
 def get_event_if_batter_stat_not_available():
-	scores = [1, 1, 0, 1, -1, 0, 1, 2, 3, 4, 6, 1, 0, 0, 1, 2, 0, 1, 0, 0, 0, 1]
+	scores = [1, 0, 0, 1, 1, 0, 1, -1, 0, 1, 2, 3, 4, 6, 1, 0, 0, 1, 2, 0, 1, 0, 0, 0, 1, 0]
 	index = random.randint(0, len(scores)-1)
 
 	return scores[index]

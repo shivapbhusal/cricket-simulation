@@ -1,14 +1,3 @@
-219889, David Warner
-530011, Travis Head
-272450, Mitchell Marsh
-267192, Steven Smith
-326434, Alex Carey
-325026, Glenn Maxwell
-1076713, Cameron Green
-489889, Pat Cummins
-311592, Mitchell Starc
-379504, Adam Zampa
-288284, Josh Hazlewood
 1070173, Shubman Gill
 34102, Rohit Sharma
 253802, Virat Kohli
@@ -20,3 +9,14 @@
 481896, Mohammad Shami
 940973, Mohammad Shiraz
 475281, Shardul Thakur
+512191, Fakhar Zaman
+568276, Imam Ul Haq
+348144, Babar Azam
+922941, Abdullah Shafiq
+480603, Iftikhar Ahmed
+323389, Mohammad Rizwan
+922943, Shadab Khan
+1072470, Shaheen Afridi
+1161606, Haris Rauf
+1158088, Naseem Shah
+647667, Usama Mir

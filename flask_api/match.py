@@ -77,7 +77,7 @@ while time_span <= 300:
 	print_inning_details(first_inn, None)
 	time_span += 1
 	# Time sleep per ball
-	time.sleep(1)
+	#time.sleep(0.1)
 
 th.join()
 
@@ -92,7 +92,7 @@ while time_span <= 600:
 	# Second inning details can go next
 	print_inning_details(first_inn, second_inn)
 	time_span += 1
-	time.sleep(1)
+	#time.sleep(1)
 
 th.join()
 

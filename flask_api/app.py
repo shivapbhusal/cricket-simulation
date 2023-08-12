@@ -19,7 +19,7 @@ def prestart_inning():
 	first_inning = inn.Inning(team_a, bowlers_for_a)
 
 	first_inning.start()
-	time.sleep(30)
+	#time.sleep(1)
 
 	second_inning = inn.Inning(team_b, bowlers_for_b, first_inning.runs_so_far + 1)
 	second_inning.start()
