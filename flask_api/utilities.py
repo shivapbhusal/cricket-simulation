@@ -12,10 +12,11 @@ def get_event_when_batter_stat_available(odi_stat):
 	not_outs = odi_stat[3]
 	fours = odi_stat[11]
 	sixes = odi_stat[12]
-	outs_percentage = (innnings - not_outs - 5) * 100 / balls_faced
+	#Minor adjustment
+	outs_percentage = ((innnings - not_outs) * 100 / balls_faced)-2
 	fours_percentage = fours * 100 / balls_faced
 	sixes_percentage = sixes * 100 / balls_faced
-	score_distribution = []
+	score_distribution = [0,1]
 	for i in range(outs_percentage - 1):
 		score_distribution.append(-1)
 	
@@ -26,7 +27,7 @@ def get_event_when_batter_stat_available(odi_stat):
 		score_distribution.append(6)
 	
 	for i in range(len(score_distribution), 100):
-		rest_of_scores = [1, 0, 2, 3, 1, 0, 0]
+		rest_of_scores = [0,0,0,1,2,3,1,2,1,0,0,0,0,0,0,1,0]
 		index = random.randint(0, len(rest_of_scores)-1)
 		score_distribution.append(rest_of_scores[index])
 	
@@ -34,7 +35,7 @@ def get_event_when_batter_stat_available(odi_stat):
 	
 
 def get_event_if_batter_stat_not_available():
-	scores = [1, 0, 0, 1, 1, 0, 1, -1, 0, 1, 2, 3, 4, 6, 1, 0, 0, 1, 2, 0, 1, 0, 0, 0, 1, 0]
+	scores = [0,0,4,1, 0, 0, 1, 1, 0, 1, -1, 0, 1, 2, 3, 4, 6, 1, 0, 0, 1, 2, 0, 1, 0, 0, 0, 1, 0]
 	index = random.randint(0, len(scores)-1)
 
 	return scores[index]
