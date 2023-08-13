@@ -135,8 +135,6 @@ class Inning:
 				self.striker.face_ball()
 				self.current_bowler.runs += ball_event
 
-			time.sleep(0)
-
 
 
 
