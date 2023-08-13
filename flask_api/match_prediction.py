@@ -60,24 +60,24 @@ def get_player_list():
 
 	return team_a, team_b, bowlers_for_a, bowlers_for_b
 
-team_a, team_b, bowlers_for_a, bowlers_for_b = get_player_list()
-
-first_inning = inn.Inning(team_a, bowlers_for_a)
-print("First Inning Created")
-first_inning.start()
-print("First Inning Started")
-second_inning = inn.Inning(team_b, bowlers_for_b, first_inning.runs_so_far + 1)
-print("Second Inning Created")
-second_inning.start()
-print("Second Inning Started")
-
 summary = {"A": 0, "B": 0, "T": 0}
+for i in range(11):
+	team_a, team_b, bowlers_for_a, bowlers_for_b = get_player_list()
+	first_inning = inn.Inning(team_a, bowlers_for_a)
+	print("First Inning Created")
+	first_inning.start()
+	print("First Inning Started")
+	second_inning = inn.Inning(team_b, bowlers_for_b, first_inning.runs_so_far + 1)
+	print("Second Inning Created")
+	second_inning.start()
+	print("Second Inning Started")
 
-if second_inning.runs_so_far > first_inning.runs_so_far:
-	summary["B"] += 1
-elif second_inning.runs_so_far == first_inning.runs_so_far:
-	summary["T"] += 1
-else:
-	summary["A"] += 1
+	if second_inning.runs_so_far > first_inning.runs_so_far:
+		summary["B"] += 1
+	elif second_inning.runs_so_far == first_inning.runs_so_far:
+		summary["T"] += 1
+	else:
+		summary["A"] += 1
+	print(summary)
 
 print(summary)

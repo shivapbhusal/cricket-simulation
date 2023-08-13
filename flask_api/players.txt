@@ -1,22 +1,22 @@
-297433,Jonny Bairstow
-298438,Jason Roy
-303669,Joe Root
-236489,Dawid Malan
-911707,Harry Brook
-308967,Joss Buttler
-8917,Mooen Ali
-662973,Sam Curran
-247235,Chris Woakes
-669855,Jofra Archer
-351588,Mark Wood
-388802, Tom Latham
-379140, Devon Conway
-277906, Kane Williamson
-539511, Henry Nichollas
-381743, Darryl Mitchell
-440516, Tom Blundell
-326968, Michael Bracewell
-502714, Mitchell Santner
-232364, Tim Southee
-277912, Trent Boult
-506612, Matt Henry
+219889, David Warner
+530011, Travis Head
+272450, Mitchell Marsh
+267192, Steven Smith
+326434, Alex Carey
+325026, Glenn Maxwell
+1076713, Cameron Green
+489889, Pat Cummins
+311592, Mitchell Starc
+379504, Adam Zampa
+288284, Josh Hazlewood
+379143, Quinton De Kock
+605680, Janneman Malan
+337790, Rassie Van Der Dussen
+600498, Aiden Markram
+436757, Heinrich Klassen
+321777, David Miller
+696401, Marco Jansen
+550215, Kagiso Rabada
+481979, Anrich Nortje
+542023, Lungi Ngidi
+379145, Tabriaz Shamsi
