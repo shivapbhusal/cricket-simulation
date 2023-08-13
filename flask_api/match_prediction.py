@@ -61,7 +61,7 @@ def get_player_list():
 	return team_a, team_b, bowlers_for_a, bowlers_for_b
 
 summary = {"A": 0, "B": 0, "T": 0}
-for i in range(11):
+for i in range(1000):
 	team_a, team_b, bowlers_for_a, bowlers_for_b = get_player_list()
 	first_inning = inn.Inning(team_a, bowlers_for_a)
 	print("First Inning Created")
